@@ -1,6 +1,6 @@
 const express = require('express');
 const bookRouter = express.Router();
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 const debug = require('debug')('app:bookRoutes');
 
 function router(nav) {
@@ -33,7 +33,7 @@ function router(nav) {
           debug("Error getting books");
           debug(error.stack);
         }
-        
+
         client.close();
       }());
     });
@@ -41,14 +41,39 @@ function router(nav) {
   bookRouter.route('/:id')
     .get((req, res) => {
       const { id } = req.params;
-      res.render(
-        'bookView', 
-        {
-          nav,
-          title: 'Book ' + id,
-          book: books[id]
+      const url = 'mongodb://localhost:27017';
+      const dbName = 'libraryApp';
+      
+      (async function mongo() {
+        let client;
+        try {
+          client = await MongoClient.connect(url, { useNewUrlParser: true });
+          debug('Connected successfully to server');
+
+          const db = client.db(dbName);
+
+          const col = await db.collection('books');
+
+          const book = await col.findOne({ _id: new ObjectID(id) })
+
+          res.render(
+            'bookView', 
+            {
+              nav,
+              title: 'Book: ' + book.title,
+              book
+            }
+          );
+
+        } catch (error) {
+          debug("Error getting single book");
+          debug(error.stack);
         }
-      );
+
+        client.close();
+      }());
+
+      
     });
 
   return bookRouter;
