@@ -1,44 +1,41 @@
 const express = require('express');
 const bookRouter = express.Router();
+const { MongoClient } = require('mongodb');
+const debug = require('debug')('app:bookRoutes');
 
 function router(nav) {
-  const books = [
-    {
-      title: 'War and Peace',
-      genre: 'Historical Fiction',
-      author: 'Lev Nikolayevich Tolstoy',
-      read: false
-    },
-    {
-      title: 'Les Miserables',
-      genre: 'Historical Fiction',
-      author: 'Victor Hugo',
-      read: false
-    },
-    {
-      title: 'The Time Machine',
-      genre: 'Science Fiction',
-      author: 'H. G. Wells',
-      read: false
-    },
-    {
-      title: 'A Journey into the Center of the Earth',
-      genre: 'Science Fiction',
-      author: 'Jules Verne',
-      read: false
-    }
-  ];
-  
   bookRouter.route('/')
     .get((req, res) => {
-      res.render(
-        'bookListView', 
-        {
-          nav,
-          title: 'Books',
-          books
+      const url = 'mongodb://localhost:27017';
+      const dbName = 'libraryApp';
+
+      (async function mongo() {
+        let client;
+        try {
+          client = await MongoClient.connect(url, { useNewUrlParser: true });
+          debug('Connected successfully to server');
+
+          const db = client.db(dbName);
+
+          const col = await db.collection('books');
+
+          const books = await col.find().toArray();
+
+          res.render(
+            'bookListView', 
+            {
+              nav,
+              title: 'Books',
+              books
+            }
+          );
+        } catch (error) {
+          debug("Error getting books");
+          debug(error.stack);
         }
-      );
+        
+        client.close();
+      }());
     });
   
   bookRouter.route('/:id')
