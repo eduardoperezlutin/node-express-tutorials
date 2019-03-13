@@ -14,8 +14,8 @@ const port = process.env.PORT || 3000;
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser);
-app.use(session({secret: 'library'}));
+app.use(cookieParser());
+app.use(session({secret: 'library', resave: true, saveUninitialized: true}));
 
 // passport config
 require('./src/config/passport.js')(app);
