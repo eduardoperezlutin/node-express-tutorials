@@ -4,7 +4,6 @@ const debug = require('debug')('app');
 const morgan = require('morgan');
 const path = require('path');
 const bodyParser = require('body-parser');
-const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 
@@ -13,9 +12,9 @@ const port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: 'library', resave: true, saveUninitialized: true}));
+app.use(session({ secret: 'library', resave: true, saveUninitialized: true }));
 
 // passport config
 require('./src/config/passport.js')(app);
@@ -48,12 +47,12 @@ const authRouter = require('./src/routes/authRoutes')(nav);
 
 app.use('/books', bookRouter);
 app.use('/admin', adminRouter);
-app.use('/auth', authRouter)
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.render(
     'index',
-    { 
+    {
       nav: [
         {
           link: '/books',
@@ -64,7 +63,7 @@ app.get('/', (req, res) => {
           title: 'Authors'
         }
       ],
-      title: 'Library' 
+      title: 'Library'
     }
   );
 });
