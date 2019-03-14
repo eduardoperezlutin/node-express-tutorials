@@ -6,12 +6,12 @@
 		<title><%=title%></title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+		<link href="/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1//css/font-awesome.min.css" rel="stylesheet">
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link href="css/styles.css" rel="stylesheet">
+		<link href="/css/styles.css" rel="stylesheet">
 	</head>
 	<body>
 <header class="navbar navbar-bright navbar-fixed-top" role="banner">
@@ -92,13 +92,13 @@
           <!--/stories-->
           <div class="row">    
             <div class="col-md-2 col-sm-3 text-center">
-              <h4>Sign Up! Or <a href="/auth/signIn">Sign In</a> </h4>
-              <form name="signUpForm" action="/auth/signUp" method="POST">
+              <h4>Sign In!</h4>
+              <form name="signInForm" action="/auth/signIn" method="POST">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username"/><br/>
                 <label for="password">Password</label>
                 <input type="text" name="password" id="password"/><br/>
-                <input type="submit" value="Sign Up" />
+                <input type="submit" value="Sign In" />
               </form>
             </div>
           </div>
@@ -153,6 +153,6 @@
 </footer>
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
 	</body>
 </html>
